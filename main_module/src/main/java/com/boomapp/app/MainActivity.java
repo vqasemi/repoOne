@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.boomapp.app.fragments.MapFragmentINote;
 import com.boomapp.app.utils.SharedPref;
 
 public class MainActivity extends Activity {
@@ -14,15 +15,16 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         if(SharedPref.getInstance(this).getFirstLaunch() == -1){
             // todo vahid fragment ziri ro ba kelasi ke zadi por kon.
-            mainFragment = new Fragment();
+            mainFragment = new MapFragmentINote();
         }else {
             // todo reza fragment ziri ro por kon.
             mainFragment = new Fragment();
         }
-        getFragmentManager().beginTransaction().add(R.id.id_base_fragment, mainFragment);
+        getFragmentManager().beginTransaction().add(R.id.id_base_fragment, mainFragment).commit();
 
     }
 

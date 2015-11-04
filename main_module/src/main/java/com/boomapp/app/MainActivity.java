@@ -1,19 +1,29 @@
 package com.boomapp.app;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-import com.testmodule.lib.DependencyClass;
+import com.boomapp.app.utils.SharedPref;
 
 public class MainActivity extends Activity {
+
+    Fragment mainFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toast.makeText(this,DependencyClass.inputString,Toast.LENGTH_LONG).show();
+
+        if(SharedPref.getInstance(this).getFirstLaunch() == -1){
+            // todo vahid fragment ziri ro ba kelasi ke zadi por kon.
+            mainFragment = new Fragment();
+        }else {
+            // todo reza fragment ziri ro por kon.
+            mainFragment = new Fragment();
+        }
+        getFragmentManager().beginTransaction().add(R.id.id_base_fragment, mainFragment);
+
     }
 
 
@@ -32,7 +42,8 @@ public class MainActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.map_settings) {
+
             return true;
         }
 

@@ -6,13 +6,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.widget.ListView;
+import com.boomapp.app.adapters.EventAdapter;
 import com.boomapp.app.fragments.CalendarFragment;
 import com.boomapp.app.fragments.MapFragmentINote;
 import com.boomapp.app.utils.SharedPref;
 
 public class MainActivity extends Activity {
 
-    Fragment mainFragment;
+    private Fragment mainFragment;
+    private EventAdapter eventAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +29,9 @@ public class MainActivity extends Activity {
             // todo reza fragment ziri ro por kon.
             mainFragment = new Fragment();
         }
+        eventAdapter = new EventAdapter(this);
         getFragmentManager().beginTransaction().replace(R.id.topFragment, mainFragment).commit();
+        ((ListView)findViewById(R.id.id_event_list_view)).setAdapter(eventAdapter);
 
     }
 

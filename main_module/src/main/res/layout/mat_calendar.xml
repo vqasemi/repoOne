@@ -5,6 +5,7 @@
     android:layout_height="fill_parent"
     android:id="@+id/calendarView"
     app:mcv_showOtherDates="all"
-    app:mcv_selectionColor="#00F"
+    app:mcv_selectionColor="#448AFF"
+    app:mcv_tileSize="52dp"
     >
 </com.prolificinteractive.materialcalendarview.MaterialCalendarView>

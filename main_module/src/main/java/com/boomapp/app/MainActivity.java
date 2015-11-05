@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
             // todo reza fragment ziri ro por kon.
             mainFragment = new Fragment();
         }
-        getFragmentManager().beginTransaction().add(R.id.topFragment, mainFragment).commit();
+        getFragmentManager().beginTransaction().replace(R.id.topFragment, mainFragment).commit();
 
     }
 

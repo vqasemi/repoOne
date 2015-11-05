@@ -5,6 +5,8 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.boomapp.app.fragments.CalendarFragment;
 import com.boomapp.app.fragments.MapFragmentINote;
 import com.boomapp.app.utils.SharedPref;
 
@@ -17,14 +19,14 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(SharedPref.getInstance(this).getFirstLaunch() == -1){
+        if (SharedPref.getInstance(this).getFirstLaunch() == -1) {
             // todo vahid fragment ziri ro ba kelasi ke zadi por kon.
-            mainFragment = new MapFragmentINote();
-        }else {
+            mainFragment = new CalendarFragment();
+        } else {
             // todo reza fragment ziri ro por kon.
             mainFragment = new Fragment();
         }
-        getFragmentManager().beginTransaction().add(R.id.id_base_fragment, mainFragment).commit();
+        getFragmentManager().beginTransaction().add(R.id.topFragment, mainFragment).commit();
 
     }
 
@@ -45,6 +47,13 @@ public class MainActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.map_settings) {
+
+            if (mainFragment instanceof CalendarFragment) {
+                mainFragment = new MapFragmentINote();
+            } else {
+                mainFragment = new CalendarFragment();
+            }
+            getFragmentManager().beginTransaction().replace(R.id.topFragment, mainFragment).commit();
 
             return true;
         }

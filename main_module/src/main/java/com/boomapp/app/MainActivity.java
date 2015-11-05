@@ -50,8 +50,10 @@ public class MainActivity extends Activity {
 
             if (mainFragment instanceof CalendarFragment) {
                 mainFragment = new MapFragmentINote();
+                item.setIcon(R.drawable.ic_calendar70);
             } else {
                 mainFragment = new CalendarFragment();
+                item.setIcon(android.R.drawable.ic_dialog_map);
             }
             getFragmentManager().beginTransaction().replace(R.id.topFragment, mainFragment).commit();
 

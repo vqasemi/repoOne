@@ -1,16 +1,20 @@
 package com.boomapp.app;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.view.View;
 import android.widget.ListView;
 import com.boomapp.app.adapters.EventAdapter;
 import com.boomapp.app.fragments.CalendarFragment;
 import com.boomapp.app.fragments.MapFragmentINote;
 import com.boomapp.app.utils.SharedPref;
+import com.melnykov.fab.FloatingActionButton;
 
 public class MainActivity extends Activity {
 
@@ -25,16 +29,27 @@ public class MainActivity extends Activity {
         if (SharedPref.getInstance(this).getFirstLaunch() == -1) {
             // todo vahid fragment ziri ro ba kelasi ke zadi por kon.
             mainFragment = new CalendarFragment();
+            Dialog dialog = new Dialog(this);
+            dialog.setContentView(R.layout.login_layout);
+            dialog.show();
         } else {
             // todo reza fragment ziri ro por kon.
             mainFragment = new Fragment();
         }
         eventAdapter = new EventAdapter(this);
         getFragmentManager().beginTransaction().replace(R.id.topFragment, mainFragment).commit();
-        ((ListView)findViewById(R.id.id_event_list_view)).setAdapter(eventAdapter);
+        ListView list = ((ListView) findViewById(R.id.id_event_list_view));
+        list.setAdapter(eventAdapter);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.attachToListView(list);
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this , AddEventActivity.class));
+            }
+        });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

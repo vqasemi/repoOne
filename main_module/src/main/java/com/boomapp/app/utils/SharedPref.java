@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import java.util.Set;
+
 
 public class SharedPref {
 
     public static final String APP_PREFs = "AppPrefs" ;
     //shared pref keys:
     public static final String FIRST_LAUNCH = "FIRST_LAUNCH";
+    public static final String EVENT_LIST = "EVENT_LIST";
 
     private static SharedPref instance;
 
@@ -41,14 +44,22 @@ public class SharedPref {
 
 
     // setters
-    public  void setFirstLaunch(int firstLaunch){
+    public void setFirstLaunch(int firstLaunch){
         appSharedPreferences.edit().putInt(FIRST_LAUNCH,firstLaunch).commit();
+    }
+
+    public void setEventSet(Set<String> events){
+        appSharedPreferences.edit().putStringSet(EVENT_LIST, events).commit();
     }
 
 
     // getters
     public Integer getFirstLaunch(){
         return appSharedPreferences.getInt(FIRST_LAUNCH, -1);
+    }
+
+    public Set<String> getEventSet(){
+        return appSharedPreferences.getStringSet(EVENT_LIST, null);
     }
 
 

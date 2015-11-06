@@ -37,10 +37,10 @@ public class CalendarFragment extends Fragment {
                 Toast.makeText(container.getContext(), calendarDay.toString(), Toast.LENGTH_SHORT).show();
 
 
-                Log.e("111111111111111111111111",calendarDay.getDate().toString());
+                Log.e("111111111111111",calendarDay.getDate().toString());
                 String d = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS+00:00").format(calendarDay.getDate());
                 d = d.substring(0,10)+"T"+d.substring(11);
-                Log.e("111111111111111111111111",d);
+                Log.e("1111111111111111",d);
                 SharedPref.getInstance().setDate(d);
             }
         });

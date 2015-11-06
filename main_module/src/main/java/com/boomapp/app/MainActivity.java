@@ -1,6 +1,7 @@
 package com.boomapp.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -62,6 +63,8 @@ public class MainActivity extends Activity {
             final ProgressDialog prodialog = new ProgressDialog(this);
             prodialog.setMessage("منتظر بمانید");
             prodialog.setTitle("ورود");
+
+            final AlertDialog.Builder alart = new AlertDialog.Builder(this);
             ((Button)dialog.findViewById(R.id.login_id)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -99,7 +102,7 @@ public class MainActivity extends Activity {
                                                 SessionCookie.getInstance().setSession(sessionID);
                                     }
                                 }
-                                Log.e("response login",response.getHeaders().get(response.getHeaders().size()-1).getValue());
+                                Log.e("response login", response.getHeaders().get(response.getHeaders().size() - 1).getValue());
                                 prodialog.dismiss();
                                 dialog.dismiss();
                             }
@@ -111,6 +114,9 @@ public class MainActivity extends Activity {
 
                                 prodialog.dismiss();
                                 dialog.dismiss();
+
+                                alart.setMessage("");
+                                alart.show();
                             }
                         });
                     } catch (Exception e) {

@@ -1,7 +1,9 @@
 package com.boomapp.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -59,6 +61,10 @@ public class AddEventActivity extends Activity {
         AutoCompleteTextView a = (AutoCompleteTextView) dialog.findViewById(R.id.tranFrom);
         a.setAdapter(adapt);
 
+        final ProgressDialog prodialog = new ProgressDialog(this);
+        prodialog.setMessage("");
+        final AlertDialog.Builder alart = new AlertDialog.Builder(this);
+
         OK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,6 +73,8 @@ public class AddEventActivity extends Activity {
                 dialog.findViewById(R.id.okBTN).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
+                        prodialog.show();
 
                         AutoCompleteTextView f = (AutoCompleteTextView) dialog.findViewById(R.id.tranFrom);
                         String ff = f.getText().toString();
@@ -116,7 +124,13 @@ public class AddEventActivity extends Activity {
                                     e.printStackTrace();
                                 }
 
+
+
                                 dialog.dismiss();
+                                prodialog.dismiss();
+
+                                alart.setMessage("");
+                                alart.show();
                             }
 
                             @Override
@@ -125,6 +139,10 @@ public class AddEventActivity extends Activity {
                                 Log.e("failure in autotransfer", retrofitError.getKind().toString());
 
                                 dialog.dismiss();
+                                prodialog.dismiss();
+
+                                alart.setMessage("");
+                                alart.show();
                             }
                         });
                     }

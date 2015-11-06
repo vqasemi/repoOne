@@ -9,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.boomapp.app.R;
+import com.boomapp.app.utils.SharedPref;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -32,6 +34,10 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onDateSelected(MaterialCalendarView materialCalendarView, CalendarDay calendarDay, boolean b) {
                 Toast.makeText(container.getContext(), calendarDay.toString(), Toast.LENGTH_SHORT).show();
+
+                String d = new SimpleDateFormat("yyyy-mm-dd hh:MM:ss.SSS+00:00").format(calendarDay.getDate());
+                d = d.substring(0,10)+"T"+d.substring(11);
+                SharedPref.getInstance().setDate(d);
             }
         });
         return calendarView;

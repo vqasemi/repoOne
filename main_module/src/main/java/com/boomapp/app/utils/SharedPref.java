@@ -68,6 +68,14 @@ public class SharedPref {
         appSharedPreferences.edit().putInt(FIRST_LAUNCH,firstLaunch).commit();
     }
 
+    public void setDate(String firstLaunch){
+        appSharedPreferences.edit().putString("DATE", firstLaunch).commit();
+    }
+
+    public String  getDate(){
+        return appSharedPreferences.getString("DATE","");
+    }
+
     public void setEventSet(Set<String> events){
         appSharedPreferences.edit().putStringSet(EVENT_LIST, events).commit();
     }

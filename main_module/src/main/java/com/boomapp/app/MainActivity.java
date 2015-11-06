@@ -60,6 +60,8 @@ public class MainActivity extends Activity {
             final Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.login_layout);
             final ProgressDialog prodialog = new ProgressDialog(this);
+//            prodialog.setMessage("„‰ Ÿ— »„«‰?œ");
+//            prodialog.setTitle("Ê—Êœ");
             ((Button)dialog.findViewById(R.id.login_id)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -152,9 +154,9 @@ public class MainActivity extends Activity {
             InputStream fis = null;
             try {
 //                fis = this.getResources().openRawResource(R.raw.yaghut);
-                Log.e("asdfaq111111111111111111111111111111sdf","asdfasdfasfasdfasdf");
+                Log.e("asdfaq1111111sdf","asdfasdfasfasdfasdf");
                 fis = this.getResources().openRawResource(R.raw.yaghut) ;
-                Log.e("asdf333333333333333333333333333333333333asdf","asdfasdfasfasdfasdf");
+                Log.e("as33333333333333333asdf","asdfasdfasfasdfasdf");
                 ks.load(fis, password);
             } finally {
                 if (fis != null) {

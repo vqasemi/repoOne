@@ -115,7 +115,7 @@ public class MainActivity extends Activity {
                                 prodialog.dismiss();
                                 dialog.dismiss();
 
-                                alart.setMessage("");
+                                alart.setMessage("خطا امکان ورود در حال حاضر وجود ندارد");
                                 alart.show();
                             }
                         });

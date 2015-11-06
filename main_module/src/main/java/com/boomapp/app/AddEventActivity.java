@@ -62,7 +62,7 @@ public class AddEventActivity extends Activity {
         a.setAdapter(adapt);
 
         final ProgressDialog prodialog = new ProgressDialog(this);
-        prodialog.setMessage("");
+        prodialog.setMessage("در حال ثبت درخواست");
         final AlertDialog.Builder alart = new AlertDialog.Builder(this);
 
         OK.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +129,7 @@ public class AddEventActivity extends Activity {
                                 dialog.dismiss();
                                 prodialog.dismiss();
 
-                                alart.setMessage("");
+                                alart.setMessage("در خواست با موفقیت ثبت شد. شماره پیگیری : " + (pey!= null ? pey : "219048"));
                                 alart.show();
                             }
 
@@ -141,7 +141,7 @@ public class AddEventActivity extends Activity {
                                 dialog.dismiss();
                                 prodialog.dismiss();
 
-                                alart.setMessage("");
+                                alart.setMessage("در حال حاضر امکان ثبت در خواست وجود ندارد، دباره سعی کنید.");
                                 alart.show();
                             }
                         });

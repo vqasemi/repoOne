@@ -27,6 +27,10 @@ public class AddEventActivity extends Activity {
         Spinner type = (Spinner) findViewById(R.id.spinner);
         Button OK = (Button) findViewById(R.id.OKbtn);
 
+//        String[] types = new String [] {"«‰ ﬁ«· ÊÃÂ" , "Å—œ«Œ  ﬁ”ÿ"};
+//        ArrayAdapter<String> aa = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,types);
+//        type.setAdapter(aa);
+
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.transfer_dialog);
         String[] depos = new String[]{"0203342703006", "0103342704006"};

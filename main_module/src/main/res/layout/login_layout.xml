@@ -87,6 +87,7 @@
                 android:backgroundTint="#00796B"
                 android:text="ورود" />
             <Button
+                android:id="@+id/lagve"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"

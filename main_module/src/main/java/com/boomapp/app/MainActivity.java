@@ -3,6 +3,7 @@ package com.boomapp.app;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,11 +59,12 @@ public class MainActivity extends Activity {
             mainFragment = new CalendarFragment();
             final Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.login_layout);
+            final ProgressDialog prodialog = new ProgressDialog(this);
             ((Button)dialog.findViewById(R.id.login_id)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     try {
-
+                        prodialog.show();
                         OkHttpClient client = new OkHttpClient();
                         KeyStore keyStore = readKeyStore(); //your method to obtain KeyStore
                         SSLContext sslContext = SSLContext.getInstance("SSL");
@@ -81,8 +83,8 @@ public class MainActivity extends Activity {
 
                         LoginDto loginDto = new LoginDto();
                         //todo hamid in ziriaro por kon
-                        loginDto.setUsername(((EditText)dialog.findViewById(R.id.username)).getText().toString());
-                        loginDto.setPassword(((EditText)dialog.findViewById(R.id.password)).getText().toString());
+                        loginDto.setUsername(((EditText) dialog.findViewById(R.id.username)).getText().toString());
+                        loginDto.setPassword(((EditText) dialog.findViewById(R.id.password)).getText().toString());
                         activationApi.RetrieveActivation(loginDto, new Callback<JSONObject>() {
                             @Override
                             public void success(JSONObject stringResponse, Response response) {
@@ -93,6 +95,7 @@ public class MainActivity extends Activity {
                                         SessionCookie.getInstance().setSession(header.getValue());
                                     }
                                 }
+                                prodialog.dismiss();
                                 dialog.dismiss();
                             }
 
@@ -102,12 +105,19 @@ public class MainActivity extends Activity {
                                 Log.e("failure", retrofitError.getKind().toString());
                                 Log.e("header:", retrofitError.getResponse().getHeaders().toString());
 
+                                prodialog.dismiss();
                                 dialog.dismiss();
                             }
                         });
                     } catch (Exception e) {
 
                     }
+                }
+            });
+            dialog.findViewById(R.id.lagve).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
                 }
             });
             dialog.show();

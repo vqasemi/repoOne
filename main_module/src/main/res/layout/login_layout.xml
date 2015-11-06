@@ -33,6 +33,7 @@
 
             android:layout_weight="1">
             <EditText
+                android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.50" />
@@ -55,9 +56,11 @@
 
 
             <EditText
+                android:id="@+id/password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:inputType="textPassword"
                 android:layout_weight="0.50"
                 />
             <TextView

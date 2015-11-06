@@ -11,7 +11,10 @@ import android.view.MenuItem;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.boomapp.app.adapters.EventAdapter;
 import com.boomapp.app.api.ActivationApi;
 import com.boomapp.app.dto.LoginDto;
@@ -53,7 +56,7 @@ public class MainActivity extends Activity {
         if (SharedPref.getInstance(this).getFirstLaunch() == -1) {
             // todo vahid fragment ziri ro ba kelasi ke zadi por kon.
             mainFragment = new CalendarFragment();
-            Dialog dialog = new Dialog(this);
+            final Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.login_layout);
             ((Button)dialog.findViewById(R.id.login_id)).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -70,37 +73,39 @@ public class MainActivity extends Activity {
                         sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), new SecureRandom());
                         client.setSslSocketFactory(sslContext.getSocketFactory());
 
-                    RestAdapter restAdapter = new RestAdapter.Builder()
-                            .setLogLevel(RestAdapter.LogLevel.FULL)
-                            .setEndpoint("http://89.221.90.189:9837/boomyaghut/rest/tosanBoomIB/user/loginStatic")
-                            .build();
-                    ActivationApi activationApi = restAdapter.create(ActivationApi.class);
+                        RestAdapter restAdapter = new RestAdapter.Builder()
+                                .setLogLevel(RestAdapter.LogLevel.FULL)
+                                .setEndpoint("http://89.221.90.189:9837/boomyaghut/rest/tosanBoomIB/user/loginStatic")
+                                .build();
+                        ActivationApi activationApi = restAdapter.create(ActivationApi.class);
 
-                    LoginDto loginDto = new LoginDto();
+                        LoginDto loginDto = new LoginDto();
                         //todo hamid in ziriaro por kon
-                    loginDto.setUsername("16790660");
-                    loginDto.setPassword("24135584");
-                    activationApi.RetrieveActivation(loginDto, new Callback<JSONObject>() {
-                        @Override
-                        public void success(JSONObject stringResponse, Response response) {
-                            Log.e("success", "success login");
-                            for (Header header : response.getHeaders()) {
-                                if(header.getName().equals("Set-Cookie")) {
-                                    Log.e("value", header.getValue());
-                                    SessionCookie.getInstance().setSession(header.getValue());
+                        loginDto.setUsername(((EditText)dialog.findViewById(R.id.username)).getText().toString());
+                        loginDto.setPassword(((EditText)dialog.findViewById(R.id.password)).getText().toString());
+                        activationApi.RetrieveActivation(loginDto, new Callback<JSONObject>() {
+                            @Override
+                            public void success(JSONObject stringResponse, Response response) {
+                                Log.e("success", "success login");
+                                for (Header header : response.getHeaders()) {
+                                    if (header.getName().equals("Set-Cookie")) {
+                                        Log.e("value", header.getValue());
+                                        SessionCookie.getInstance().setSession(header.getValue());
+                                    }
                                 }
+                                dialog.dismiss();
                             }
-                        }
 
-                        @Override
-                        public void failure(RetrofitError retrofitError) {
-                            Log.e("", "failure");
-                            Log.e("failure",retrofitError.getKind().toString());
-                            Log.e("header:",retrofitError.getResponse().getHeaders().toString());
+                            @Override
+                            public void failure(RetrofitError retrofitError) {
+                                Log.e("", "failure");
+                                Log.e("failure", retrofitError.getKind().toString());
+                                Log.e("header:", retrofitError.getResponse().getHeaders().toString());
 
-                        }
-                    });
-                    } catch (Exception e){
+                                dialog.dismiss();
+                            }
+                        });
+                    } catch (Exception e) {
 
                     }
                 }

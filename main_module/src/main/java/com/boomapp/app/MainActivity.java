@@ -5,16 +5,38 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import com.boomapp.app.adapters.EventAdapter;
+import com.boomapp.app.api.ActivationApi;
+import com.boomapp.app.dto.LoginDto;
 import com.boomapp.app.fragments.CalendarFragment;
 import com.boomapp.app.fragments.MapFragmentINote;
 import com.boomapp.app.utils.SharedPref;
 import com.melnykov.fab.FloatingActionButton;
+import com.squareup.okhttp.OkHttpClient;
+import org.json.JSONObject;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Header;
+import retrofit.client.OkClient;
+import retrofit.client.Response;
+
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.security.KeyStore;
+import java.security.SecureRandom;
 
 public class MainActivity extends Activity {
 
@@ -26,11 +48,63 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SharedPref.getInstance(this).setEventSet(SharedPref.listToJson(SharedPref.fakeData()));
+
         if (SharedPref.getInstance(this).getFirstLaunch() == -1) {
             // todo vahid fragment ziri ro ba kelasi ke zadi por kon.
             mainFragment = new CalendarFragment();
             Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.login_layout);
+            ((Button)dialog.findViewById(R.id.login_id)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+
+                        OkHttpClient client = new OkHttpClient();
+                        KeyStore keyStore = readKeyStore(); //your method to obtain KeyStore
+                        SSLContext sslContext = SSLContext.getInstance("SSL");
+                        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+                        trustManagerFactory.init(keyStore);
+                        KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+                        keyManagerFactory.init(keyStore, "123456".toCharArray());
+                        sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), new SecureRandom());
+                        client.setSslSocketFactory(sslContext.getSocketFactory());
+
+                    RestAdapter restAdapter = new RestAdapter.Builder()
+                            .setLogLevel(RestAdapter.LogLevel.FULL)
+                            .setEndpoint("http://89.221.90.189:9837/boomyaghut/rest/tosanBoomIB/user/loginStatic")
+                            .build();
+                    ActivationApi activationApi = restAdapter.create(ActivationApi.class);
+
+                    LoginDto loginDto = new LoginDto();
+                        //todo hamid in ziriaro por kon
+                    loginDto.setUsername("16790660");
+                    loginDto.setPassword("24135584");
+                    activationApi.RetrieveActivation(loginDto, new Callback<JSONObject>() {
+                        @Override
+                        public void success(JSONObject stringResponse, Response response) {
+                            Log.e("success", "success login");
+                            for (Header header : response.getHeaders()) {
+                                if(header.getName().equals("Set-Cookie")) {
+                                    Log.e("value", header.getValue());
+                                    SessionCookie.getInstance().setSession(header.getValue());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void failure(RetrofitError retrofitError) {
+                            Log.e("", "failure");
+                            Log.e("failure",retrofitError.getKind().toString());
+                            Log.e("header:",retrofitError.getResponse().getHeaders().toString());
+
+                        }
+                    });
+                    } catch (Exception e){
+
+                    }
+                }
+            });
             dialog.show();
         } else {
             // todo reza fragment ziri ro por kon.
@@ -49,6 +123,35 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(MainActivity.this , AddEventActivity.class));
             }
         });
+    }
+
+    KeyStore readKeyStore() {
+        KeyStore ks;
+        try {
+
+             ks = KeyStore.getInstance(KeyStore.getDefaultType());
+
+            // get user password and file input stream
+            char[] password = "123456".toCharArray();
+
+            InputStream fis = null;
+            try {
+//                fis = this.getResources().openRawResource(R.raw.yaghut);
+                Log.e("asdfaq111111111111111111111111111111sdf","asdfasdfasfasdfasdf");
+                fis = this.getResources().openRawResource(R.raw.yaghut) ;
+                Log.e("asdf333333333333333333333333333333333333asdf","asdfasdfasfasdfasdf");
+                ks.load(fis, password);
+            } finally {
+                if (fis != null) {
+                    fis.close();
+                }
+            }
+        }catch (Exception e){
+            Log.e("readkeahdklsfjalk","asdjfklajsdfajsdf");
+            e.printStackTrace();
+            return null;
+        }
+        return ks;
     }
 
     @Override

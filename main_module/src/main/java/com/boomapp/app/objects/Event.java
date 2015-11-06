@@ -4,6 +4,8 @@ import java.util.Date;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
+import org.json.JSONStringer;
 
 /**
  * @author mohsen
@@ -18,7 +20,8 @@ public class Event {
     private String title;
     private String description;
 
-
+    public Event(){
+    }
 
     public Event(MarkerObject marker, Date date, String title, String description) {
         this.marker = marker;

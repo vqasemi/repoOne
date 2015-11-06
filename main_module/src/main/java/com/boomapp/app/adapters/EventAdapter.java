@@ -36,9 +36,11 @@ public class EventAdapter extends BaseAdapter {
             for (String s : eventsSet) {
                 Event event = null;
                 try {
+                    Log.e("EventAdapter:String:",s);
                     event = objectMapper.readValue(s, Event.class);
                 } catch (IOException e) {
                     Log.e("EventAdapter", "read json error");
+                    e.printStackTrace();
                 }
                 eventList.add(event);
             }
@@ -62,11 +64,12 @@ public class EventAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = View.inflate(context, R.layout.location_event_list_view, parent);
+        Log.e("size of events",""+eventList.size());
+        View view = View.inflate(context, R.layout.location_event_list_view, null);
         ((TextView)view.findViewById(R.id.id_title_event)).setText(eventList.get(position).getTitle());
-        ((TextView)view.findViewById(R.id.id_title_event)).setText(eventList.get(position).getDescription());
+        ((TextView)view.findViewById(R.id.id_description_event)).setText(eventList.get(position).getDescription());
         if(eventList.get(position).getDate() != null) {
-            ((TextView) view.findViewById(R.id.id_title_event)).setText(eventList.get(position).getDescription());
+            ((TextView) view.findViewById(R.id.id_time_event)).setText(eventList.get(position).getDate().toString());
         }
         if(eventList.get(position).getMarker() != null) {
             //todo

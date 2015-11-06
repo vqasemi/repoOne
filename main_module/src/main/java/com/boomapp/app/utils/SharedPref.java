@@ -3,8 +3,10 @@ package com.boomapp.app.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import com.boomapp.app.objects.Event;
+import com.boomapp.app.objects.MarkerObject;
 
-import java.util.Set;
+import java.util.*;
 
 
 public class SharedPref {
@@ -20,6 +22,24 @@ public class SharedPref {
 
     private SharedPref(Context appContext){
         appSharedPreferences = appContext.getSharedPreferences(APP_PREFs, Context.MODE_PRIVATE);
+    }
+
+    public static List<Event> fakeData(){
+        List<Event> fakeList = new ArrayList<Event>();
+        fakeList.add(new Event(null,new Date(),"تولد محسن","100 تومن ریختم به حسابش"));
+        fakeList.add(new Event(null,new Date(),"اجاره خونه","انتقال زدم"));
+        fakeList.add(new Event(null,new Date(),"پرداخت قسط","وام مسکن"));
+        fakeList.add(new Event(new MarkerObject(32.0,53.0),null,"داروخانه","داروهای مامان بزرگ"));
+        fakeList.add(new Event(new MarkerObject(32.0,53.0),new Date(),"اصغر","یادآوری تمرین دوم"));
+        return fakeList;
+    }
+
+    public static Set<String> listToJson(List<Event> eventsList){
+        Set<String> eventsSet = new HashSet<String>();
+        for (Event e : eventsList) {
+            eventsSet.add(e.eventToJson());
+        }
+        return eventsSet;
     }
 
     public static SharedPref getInstance(Context appContext){

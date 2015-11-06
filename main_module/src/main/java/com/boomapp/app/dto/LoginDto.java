@@ -5,15 +5,15 @@ package com.boomapp.app.dto;
  */
 public class LoginDto {
 
-    private String cif;
+    private String username;
     private String password;
 
-    public String getCif() {
-        return cif;
+    public String getUsername() {
+        return username;
     }
 
-    public void setCif(String cif) {
-        this.cif = cif;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

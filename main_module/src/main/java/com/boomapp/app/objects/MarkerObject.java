@@ -8,6 +8,9 @@ public class MarkerObject {
     private double latitude;
     private double longitude;
 
+    public MarkerObject() {
+    }
+
     public MarkerObject(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;

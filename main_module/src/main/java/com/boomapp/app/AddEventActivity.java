@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 /**
@@ -37,6 +38,28 @@ public class AddEventActivity extends Activity {
             @Override
             public void onClick(View view) {
                 dialog.show();
+
+                dialog.findViewById(R.id.okBTN).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        AutoCompleteTextView f = (AutoCompleteTextView) dialog.findViewById(R.id.tranFrom);
+                        String ff = f.getText().toString();
+
+                        EditText t = (EditText) dialog.findViewById(R.id.tranTo);
+                        String tt = t.getText().toString();
+
+                        EditText a = (EditText) dialog.findViewById(R.id.amount);
+                        String aa = a.getText().toString();
+                    }
+                });
+
+                dialog.findViewById(R.id.canBTN).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
             }
         });
     }

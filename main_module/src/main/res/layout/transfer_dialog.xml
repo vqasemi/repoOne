@@ -50,6 +50,7 @@
 
 
             <EditText
+                android:id="@+id/tranTo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -72,6 +73,7 @@
 
 
             <EditText
+                android:id="@+id/amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -94,6 +96,7 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/okBTN"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -101,6 +104,7 @@
                 android:text="انتقال" />
 
             <Button
+                android:id="@+id/canBTN"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

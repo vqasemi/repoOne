@@ -60,8 +60,8 @@ public class MainActivity extends Activity {
             final Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.login_layout);
             final ProgressDialog prodialog = new ProgressDialog(this);
-//            prodialog.setMessage("ãäÊÙÑ ÈãÇä?Ï");
-//            prodialog.setTitle("æÑæÏ");
+//            prodialog.setMessage("ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½?ï¿½");
+//            prodialog.setTitle("ï¿½ï¿½ï¿½ï¿½");
             ((Button)dialog.findViewById(R.id.login_id)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -94,7 +94,9 @@ public class MainActivity extends Activity {
                                 for (Header header : response.getHeaders()) {
                                     if (header.getName().equals("Set-Cookie")) {
                                         Log.e("value", header.getValue());
-                                        SessionCookie.getInstance().setSession(header.getValue());
+                                                String sessionID = header.getValue().substring(header.getValue().indexOf("J"),header.getValue().indexOf(";"));
+                                                Log.e("value of sessionid",sessionID);
+                                                SessionCookie.getInstance().setSession(sessionID);
                                     }
                                 }
                                 prodialog.dismiss();
@@ -105,7 +107,6 @@ public class MainActivity extends Activity {
                             public void failure(RetrofitError retrofitError) {
                                 Log.e("", "failure");
                                 Log.e("failure", retrofitError.getKind().toString());
-                                Log.e("header:", retrofitError.getResponse().getHeaders().toString());
 
                                 prodialog.dismiss();
                                 dialog.dismiss();

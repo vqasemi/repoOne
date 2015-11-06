@@ -6,12 +6,28 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import com.boomapp.app.api.ActivationApi;
+import com.boomapp.app.api.AutoTransferApi;
+import com.boomapp.app.dto.AutoTransferDto;
+import com.boomapp.app.dto.AutoTransferRequestDto;
+import com.boomapp.app.dto.LoginDto;
+import org.json.JSONObject;
+import retrofit.Callback;
+import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Header;
+import retrofit.client.Response;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Created by Hamid on 11/05/2015.
@@ -55,6 +71,36 @@ public class AddEventActivity extends Activity {
 
                         EditText a = (EditText) dialog.findViewById(R.id.amount);
                         String aa = a.getText().toString();
+
+                        RestAdapter restAdapter = new RestAdapter.Builder()
+                                .setLogLevel(RestAdapter.LogLevel.FULL)
+                                .setEndpoint("http://89.221.90.189:9837/boomyaghut/rest/tosanBoomIB/deposit/autoTransfer")
+                                .setRequestInterceptor(new RequestInterceptor() {
+                                    @Override
+                                    public void intercept(RequestFacade request) {
+                                        request.addHeader("Cookie", SessionCookie.getInstance().getSession());
+                                    }
+                                })
+                                .build();
+                        AutoTransferApi activationApi = restAdapter.create(AutoTransferApi.class);
+
+
+                        AutoTransferDto autoTransferDto = new AutoTransferDto(new BigDecimal(aa),tt,ff,new Date(),new Short("1"), AutoTransferDto.TermType.DAILY,new Short("1"));
+                        AutoTransferRequestDto autoTransferRequestDto = new AutoTransferRequestDto(autoTransferDto);
+                        activationApi.RetrieveActivation(autoTransferDto, new Callback<JSONObject>() {
+                            @Override
+                            public void success(JSONObject stringResponse, Response response) {
+                                Log.e("success", "success login");
+                                Log.e("response",stringResponse.toString());
+                            }
+
+                            @Override
+                            public void failure(RetrofitError retrofitError) {
+                                Log.e("", "failure");
+                                Log.e("failure in autotransfer", retrofitError.getKind().toString());
+
+                            }
+                        });
                     }
                 });
 

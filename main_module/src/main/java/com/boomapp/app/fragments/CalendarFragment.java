@@ -3,6 +3,7 @@ package com.boomapp.app.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +36,11 @@ public class CalendarFragment extends Fragment {
             public void onDateSelected(MaterialCalendarView materialCalendarView, CalendarDay calendarDay, boolean b) {
                 Toast.makeText(container.getContext(), calendarDay.toString(), Toast.LENGTH_SHORT).show();
 
-                String d = new SimpleDateFormat("yyyy-mm-dd hh:MM:ss.SSS+00:00").format(calendarDay.getDate());
+
+                Log.e("111111111111111111111111",calendarDay.getDate().toString());
+                String d = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS+00:00").format(calendarDay.getDate());
                 d = d.substring(0,10)+"T"+d.substring(11);
+                Log.e("111111111111111111111111",d);
                 SharedPref.getInstance().setDate(d);
             }
         });

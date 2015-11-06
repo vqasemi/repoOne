@@ -18,6 +18,10 @@ import com.boomapp.app.api.AutoTransferApi;
 import com.boomapp.app.dto.AutoTransferDto;
 import com.boomapp.app.dto.AutoTransferRequestDto;
 import com.boomapp.app.dto.LoginDto;
+import com.boomapp.app.objects.Event;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.android.gms.internal.ob;
+import org.json.JSONException;
 import org.json.JSONObject;
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
@@ -26,6 +30,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Header;
 import retrofit.client.Response;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -43,9 +48,9 @@ public class AddEventActivity extends Activity {
         Spinner type = (Spinner) findViewById(R.id.spinner);
         Button OK = (Button) findViewById(R.id.OKbtn);
 
-//        String[] types = new String [] {"������ ���" , "������ ���"};
-//        ArrayAdapter<String> aa = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,types);
-//        type.setAdapter(aa);
+        String[] types = new String [] {"انتقال وجه" , "پرداخت قسط","ارسال پیامک","سر رسید چک"};
+        ArrayAdapter<String> aa = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,types);
+        type.setAdapter(aa);
 
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.transfer_dialog);
@@ -90,8 +95,28 @@ public class AddEventActivity extends Activity {
                         activationApi.RetrieveActivation(autoTransferDto, new Callback<JSONObject>() {
                             @Override
                             public void success(JSONObject stringResponse, Response response) {
-                                Log.e("success", "success login");
-                                Log.e("response",stringResponse.toString());
+                                Log.e("success", "success autotransfer");
+                                byte[] temp = new byte[(int)response.getBody().length()];
+                                try {
+                                    response.getBody().in().read(temp,0,temp.length);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                String res = new String(temp);
+                                Log.e("response",res);
+
+                                class Peygiri{
+                                    String result;
+                                }
+                                Peygiri pey = null;
+                                ObjectMapper objectMapper = new ObjectMapper();
+                                try {
+                                    pey = objectMapper.readValue(res, Peygiri.class);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                dialog.dismiss();
                             }
 
                             @Override
@@ -99,6 +124,7 @@ public class AddEventActivity extends Activity {
                                 Log.e("", "failure");
                                 Log.e("failure in autotransfer", retrofitError.getKind().toString());
 
+                                dialog.dismiss();
                             }
                         });
                     }

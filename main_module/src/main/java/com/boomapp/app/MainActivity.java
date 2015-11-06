@@ -60,8 +60,8 @@ public class MainActivity extends Activity {
             final Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.login_layout);
             final ProgressDialog prodialog = new ProgressDialog(this);
-//            prodialog.setMessage("����� ����?�");
-//            prodialog.setTitle("����");
+            prodialog.setMessage("منتظر بمانید");
+            prodialog.setTitle("ورود");
             ((Button)dialog.findViewById(R.id.login_id)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -99,6 +99,7 @@ public class MainActivity extends Activity {
                                                 SessionCookie.getInstance().setSession(sessionID);
                                     }
                                 }
+                                Log.e("response login",response.getHeaders().get(response.getHeaders().size()-1).getValue());
                                 prodialog.dismiss();
                                 dialog.dismiss();
                             }
